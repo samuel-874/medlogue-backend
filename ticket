@@ -1,0 +1,16 @@
+ # 24 Friday Octomber 2023 
+ - Project initialization and setup
+
+
+ # 25 Satursday Octomber 2023
+ - Created the user entity
+ 
+ # 26 Sunday Octomber 2023
+ - Implemented the local Strategy
+ - Implemented the jwt Strategy
+
+ # 27 Monday Octomber 2023
+ - Implemented the Role Based Authentication 
+ - Also worked on the enpoint for updating user's info
+
+
