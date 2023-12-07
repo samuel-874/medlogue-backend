@@ -3,7 +3,7 @@
 
 
  # 25 Satursday Octomber 2023
- - Created the user entity
+ - implemented the user entity and user registration
  
  # 26 Sunday Octomber 2023
  - Implemented the local Strategy

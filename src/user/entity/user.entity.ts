@@ -1,5 +1,5 @@
 import { Roles } from "src/role/roles.enum";
-import { BloodGroup, Gender, Genotype } from "./user.enums";
+import { BloodGroup, Gender, Genotype, Provider } from "./user.enums";
 import { 
     Column, 
     Entity, 
@@ -23,7 +23,7 @@ export class User{
     @Column({ unique: true })
     email: string;
 
-    @Column()
+    @Column({ nullable: true})
     password: string;
 
     @Column({ nullable: true })
@@ -52,6 +52,9 @@ export class User{
 
     @Column({ type: 'enum', enum: Gender,  default: Gender.UN_MENTIONED })
     gender: Gender;
+
+    @Column({ type: 'enum', enum: Provider,  default: Provider.MEDLOGUE })
+    provider: Provider
 
     @Column({ default: false })
     profileCompleted: boolean;

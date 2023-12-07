@@ -25,3 +25,8 @@ export enum BloodGroup{
    OTHERS="OTHERS"
 }
 
+export enum Provider{
+    MEDLOGUE = "medlogue",
+    GOOGLE="google"
+}
+

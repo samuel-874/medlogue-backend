@@ -8,12 +8,7 @@ import { RolesGuard } from 'src/role/roles.guard';
 
 @Module({
   controllers: [UserController],
-  providers: [UserService,
-    // {
-    //   provide: APP_GUARD,
-    //   useClass: RolesGuard,
-    // },    
-  ],
+  providers: [UserService],
   exports: [UserService],
   imports: [ TypeOrmModule.forFeature([User])]
 })

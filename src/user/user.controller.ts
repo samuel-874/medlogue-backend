@@ -5,18 +5,17 @@ import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { HasRole } from 'src/role/roles.decorator';
 import { Roles } from 'src/role/roles.enum';
 import { RolesGuard } from 'src/role/roles.guard';
-import {
-     Get, 
-     Req, 
-     Res, 
-     Body, 
-     Post, 
-     Param, 
-     UseGuards,
-     Controller,
-     Put,
-     } from '@nestjs/common';
 import { UserUpdateDTO } from './dto/complete-user-profile.dto';
+import { Get, 
+        Req, 
+        Res, 
+        Body, 
+        Post, 
+        Param, 
+        UseGuards,
+        Controller,
+        Put,
+     } from '@nestjs/common';
 
 
 @UseGuards(JwtAuthGuard,RolesGuard)
@@ -27,11 +26,6 @@ export class UserController {
     constructor(private userService: UserService) {}
 
    
-    @Get('/test')
-    test(){
-       return this.userService.test();
-    }
-
     @Get()
     getUserDetails(
         @Req() request: Request

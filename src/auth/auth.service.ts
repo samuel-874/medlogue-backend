@@ -4,6 +4,8 @@ import { JwtService } from "@nestjs/jwt";
 import { User } from 'src/user/entity/user.entity';
 import { UserRegistrationDTO } from 'src/user/dto/create-user.dto';
 import { Response } from 'express';
+import * as bcrypt from "bcrypt"
+import { SocialLoginUserDTO } from 'src/user/dto/social-login.dto';
 @Injectable()
 export class AuthService {
 
@@ -15,8 +17,8 @@ export class AuthService {
     async validateUser( email: string, pass: string ){
         
         const user = await this.userService.findOne(email,true);
-        
-        if(user && user.password === pass){
+        const isMatch = await bcrypt.compare(pass,user.password);        
+        if(user && isMatch){
             const { password, ...result } = user;
             return result;
         }
@@ -37,8 +39,37 @@ export class AuthService {
         userDTO: UserRegistrationDTO,
         response: Response,
         ) {
+            const createdOn = new Date();
 
-        return this.userService.createUser(userDTO,response);
+          const res = await this.userService.createUser(userDTO,response);
+          if(res.statusCode >= 400 ){
+            
+            return res;
+          }
+          
+            
+            const payload = { sub: createdOn.getTime(), email: userDTO.email, role: userDTO.role };
+            return {
+              access_token: this.jwtService.sign(payload),
+            }
+    }
+
+    async socialLogin(
+        userDTO: SocialLoginUserDTO,
+        response: Response,
+        ) {
+            const createdOn = new Date();
+
+           const res = await this.userService.socialLogin(userDTO,response);
+           if(res.statusCode >= 400 ){
+                
+                return res;
+          }
+
+            const payload = { sub: createdOn.getTime(), email: userDTO.email, role: userDTO.role };
+            return {
+              access_token: this.jwtService.sign(payload),
+            }
     }
 
 }

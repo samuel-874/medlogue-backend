@@ -5,7 +5,9 @@ import { InjectRepository } from "@nestjs/typeorm";
 import { UserRegistrationDTO } from "./dto/create-user.dto";
 import { customResponse } from "src/general/service";
 import { Request, Response } from "express";
+import * as bcrypt from 'bcrypt';
 import { UserUpdateDTO } from "./dto/complete-user-profile.dto";
+import { SocialLoginUserDTO } from "./dto/social-login.dto";
 
 @Injectable()
 export class UserService {
@@ -24,7 +26,6 @@ export class UserService {
        
         if(!user){
             console.log("Error: not found");
-            
            return response.status(404).send(customResponse(404,"User not found", null));
         }
 
@@ -49,6 +50,7 @@ export class UserService {
     }
 
 
+  
    async createUser(reqDTO: UserRegistrationDTO, res: Response){
         const existingUserWithEmail = await this.userRepository.exist({
             where: {email: reqDTO.email}
@@ -59,10 +61,37 @@ export class UserService {
             customResponse(403,"Email has been taken",null));
         }
 
+        reqDTO.password = await bcrypt.hash(reqDTO.password, await bcrypt.genSalt())
+
         const user = await this.userRepository.save(reqDTO);
         return  res.status(201).send(
             customResponse(201,"User Registered Successfully",user));
     }
+
+    async socialLogin(reqDTO: SocialLoginUserDTO, res: Response){
+        const existingUserWithEmail = await this.userRepository.findOne({
+            where: {email: reqDTO.email}
+        })
+
+        if(existingUserWithEmail){
+            
+            if(existingUserWithEmail.provider === reqDTO.provider){
+                existingUserWithEmail.lastLogin = new Date().toString();
+                await this.userRepository.save(existingUserWithEmail);
+               return res.status(200).send(
+                customResponse(200,"Login Successful",null));
+
+            }
+
+            return res.status(403).send(
+                customResponse(403,"Email has been registered",null))
+        }
+
+        const user = await this.userRepository.save(reqDTO);
+        return  res.status(201).send(
+            customResponse(201,"User Registered Successfully",user));
+    }
+
 
    async updateUser( updateDTO: UserUpdateDTO, request ){
 
