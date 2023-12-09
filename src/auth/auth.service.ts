@@ -56,16 +56,11 @@ export class AuthService {
 
     async socialLogin(
         userDTO: SocialLoginUserDTO,
-        response: Response,
         ) {
             const createdOn = new Date();
 
-           const res = await this.userService.socialLogin(userDTO,response);
-           if(res.statusCode >= 400 ){
-                
-                return res;
-          }
-
+         await this.userService.socialLogin(userDTO);
+    
             const payload = { sub: createdOn.getTime(), email: userDTO.email, role: userDTO.role };
             return {
               access_token: this.jwtService.sign(payload),

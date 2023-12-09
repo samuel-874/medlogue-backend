@@ -26,7 +26,7 @@ export class UserController {
     constructor(private userService: UserService) {}
 
    
-    @Get()
+    @Get("/me")
     getUserDetails(
         @Req() request: Request
     ){

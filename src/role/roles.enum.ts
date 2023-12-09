@@ -1,7 +1,7 @@
 
 export enum Roles{
-    PATIENT="PATIENT",
-    DOCTOR="DOCTOR",
-    ADMIN="ADMIN",
-    SUPER_ADMIN="SUPER_ADMIN"
+    PATIENT="patient",
+    DOCTOR="doctor",
+    ADMIN="admin",
+    SUPER_ADMIN="super admin"
 }

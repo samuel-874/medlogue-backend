@@ -35,7 +35,6 @@ export class UserService {
 
 
     async findOne(email: string, login?: boolean){
-
         const user = await this.userRepository.findOne({
             where: { email }
         });
@@ -68,28 +67,22 @@ export class UserService {
             customResponse(201,"User Registered Successfully",user));
     }
 
-    async socialLogin(reqDTO: SocialLoginUserDTO, res: Response){
+    async socialLogin(reqDTO: SocialLoginUserDTO){
         const existingUserWithEmail = await this.userRepository.findOne({
             where: {email: reqDTO.email}
         })
 
         if(existingUserWithEmail){
             
-            if(existingUserWithEmail.provider === reqDTO.provider){
+            if(existingUserWithEmail.provider === reqDTO.provider && existingUserWithEmail.role === reqDTO.role){
                 existingUserWithEmail.lastLogin = new Date().toString();
-                await this.userRepository.save(existingUserWithEmail);
-               return res.status(200).send(
-                customResponse(200,"Login Successful",null));
-
+               return await this.userRepository.save(existingUserWithEmail);
             }
 
-            return res.status(403).send(
-                customResponse(403,"Email has been registered",null))
+            throw new UnauthorizedException("Email has been taken")
         }
 
-        const user = await this.userRepository.save(reqDTO);
-        return  res.status(201).send(
-            customResponse(201,"User Registered Successfully",user));
+        return await this.userRepository.save(reqDTO);
     }
 
 

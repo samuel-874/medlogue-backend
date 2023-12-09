@@ -21,10 +21,9 @@ export class AuthController {
     @Post('/social-login')
     async socialLogin(
         @Body() data: SocialLoginUserDTO,
-        @Res() response: Response,
         ) {
 
-        return this.authService.socialLogin(data, response);
+        return await this.authService.socialLogin(data);
     }
 
 
