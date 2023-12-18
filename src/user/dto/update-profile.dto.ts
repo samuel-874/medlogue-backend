@@ -1,8 +1,19 @@
-import { IsEnum, IsNotEmpty, IsNumber, IsString } from "class-validator";
+import { IsEmail, IsEnum, IsNotEmpty, IsNumber, IsString } from "class-validator";
 import { BloodGroup, Gender, Genotype } from "../entity/user.enums"
 
 
 export class UserUpdateDTO{
+
+    @IsString()
+    @IsNotEmpty()
+    firstname: string;
+
+    @IsString()
+    @IsNotEmpty()
+    lastname: string;
+
+    @IsEmail()
+    email: string;
 
     @IsString()
     @IsEnum(Gender)

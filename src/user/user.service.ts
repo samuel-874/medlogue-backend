@@ -6,7 +6,7 @@ import { UserRegistrationDTO } from "./dto/create-user.dto";
 import { customResponse } from "src/general/service";
 import { Request, Response } from "express";
 import * as bcrypt from 'bcrypt';
-import { UserUpdateDTO } from "./dto/complete-user-profile.dto";
+import { UserUpdateDTO } from "./dto/update-profile.dto";
 import { SocialLoginUserDTO } from "./dto/social-login.dto";
 
 @Injectable()
@@ -38,6 +38,11 @@ export class UserService {
         const user = await this.userRepository.findOne({
             where: { email }
         });
+
+        if(!user){
+
+            throw new UnauthorizedException("Email has not been registered")
+        }
 
         if(login){
            user.lastLogin = new Date().toString();
@@ -86,17 +91,15 @@ export class UserService {
     }
 
 
-   async updateUser( updateDTO: UserUpdateDTO, request ){
+   async updateUser( updateDTO: UserUpdateDTO ){
 
-        const email = request?.user?.email;
 
         const user = await this.userRepository.findOne({
-                where: { email }
+                where: { email: updateDTO.email }
         })
 
         if(!user){
-           throw new UnauthorizedException("user not found");
-            return;
+           throw new UnauthorizedException("Email was not recognized");
         }
 
         user.dateOfBirth = updateDTO.dateOfBirth;
@@ -105,12 +108,13 @@ export class UserService {
         user.height = updateDTO.height;
         user.gender = updateDTO.gender;
         user.weight = updateDTO.weight
+        user.firstname = updateDTO.firstname
+        user.lastname = updateDTO.lastname
         user.profileCompleted = true
 
         this.userRepository.save(user);
 
         return customResponse(200,"Update was successfully",user);
-
    }
 
     test(){

@@ -5,7 +5,7 @@ import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { HasRole } from 'src/role/roles.decorator';
 import { Roles } from 'src/role/roles.enum';
 import { RolesGuard } from 'src/role/roles.guard';
-import { UserUpdateDTO } from './dto/complete-user-profile.dto';
+import { UserUpdateDTO } from './dto/update-profile.dto';
 import { Get, 
         Req, 
         Res, 
@@ -34,11 +34,10 @@ export class UserController {
     }
 
     @Put()
-    completeProfile(
+    updateProfile(
         @Body() updateDTO: UserUpdateDTO,
-        @Req() request: Request
     ){
-        return this.userService.updateUser(updateDTO,request)
+        return this.userService.updateUser(updateDTO)
     }   
     
     // @Get('/:id')

@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { UserService } from 'src/user/user.service';
 import { JwtService } from "@nestjs/jwt";
 import { User } from 'src/user/entity/user.entity';
@@ -6,6 +6,7 @@ import { UserRegistrationDTO } from 'src/user/dto/create-user.dto';
 import { Response } from 'express';
 import * as bcrypt from "bcrypt"
 import { SocialLoginUserDTO } from 'src/user/dto/social-login.dto';
+import { Provider } from 'src/user/entity/user.enums';
 @Injectable()
 export class AuthService {
 
@@ -17,13 +18,18 @@ export class AuthService {
     async validateUser( email: string, pass: string ){
         
         const user = await this.userService.findOne(email,true);
+        if(user.provider !== Provider.MEDLOGUE){
+
+          throw new UnauthorizedException(`User registered vai ${user.provider} and does not have a password`)
+        }
         const isMatch = await bcrypt.compare(pass,user.password);        
         if(user && isMatch){
             const { password, ...result } = user;
             return result;
+        }else{
+          throw new UnauthorizedException("Password is not correct")
         }
 
-        return null;
     }
 
     async login(user: User) {
