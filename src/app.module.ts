@@ -3,6 +3,8 @@ import { UserModule } from './user/user.module';
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { User } from './user/entity/user.entity';
 import { AuthModule } from './auth/auth.module';
+import { FiledataModule } from './filedata/filedata.module';
+import { FileData } from './filedata/filedata.entity';
 
 
 const  dotenv  = require('dotenv');
@@ -27,10 +29,12 @@ const {
     username: process.env.DB_USERNAME,
     password: process.env.DB_PASSWORD,
     database: process.env.DB_DATABASE,
-    entities: [User],
-    synchronize: true
+    entities: [User,FileData],
+    synchronize: true,
+    autoLoadEntities: true
 
   }),
-  AuthModule],
+  AuthModule,
+  FiledataModule,],
 })
 export class AppModule {}

@@ -1,4 +1,4 @@
-import { IsEmail, IsEnum, IsNotEmpty, IsNumber, IsString } from "class-validator";
+import { IsEmail, IsEnum, IsNotEmpty, IsNumber, IsOptional, IsString } from "class-validator";
 import { BloodGroup, Gender, Genotype } from "../entity/user.enums"
 
 
@@ -35,6 +35,10 @@ export class UserUpdateDTO{
     height: number;
 
     @IsNumber()
-    weight: number
+    weight: number;
+
+    @IsString()
+    @IsOptional()
+    profilePic: string;
 
 }

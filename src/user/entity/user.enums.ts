@@ -30,3 +30,16 @@ export enum Provider{
     GOOGLE="google"
 }
 
+export enum Specialty{
+    CONSULTANT = "Consultant",
+    DENTISI = "Dentist",
+    CARDIOLOGIST = "Cardiologist",
+    NEUROLOGIST = "Neurologist",
+    ONCOLOGIST = "Oncologist",
+    PSYCHIATRISTS = "Psychiatrists",
+    PEDIATRICIAN = "Pediatrician",
+    ENT_SPECIALIST_ALLERGIST = "ENT Specialist Allergist",
+    OPHTHALMOLOGIST = "Ophthalmologist",
+    GENERAL_SURGEON = "General Surgeon" ,
+    OTHERS = "other"
+}

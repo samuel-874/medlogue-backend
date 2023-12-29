@@ -1,11 +1,14 @@
 import { Roles } from "src/role/roles.enum";
-import { BloodGroup, Gender, Genotype, Provider } from "./user.enums";
+import { BloodGroup, Gender, Genotype, Provider, Specialty } from "./user.enums";
 import { 
     Column, 
     Entity, 
     CreateDateColumn, 
-    PrimaryGeneratedColumn, 
+    PrimaryGeneratedColumn,
+    ManyToOne, 
 } from "typeorm"
+import { Expose } from "class-transformer";
+
 
 
 @Entity({ name: 'users' })
@@ -62,5 +65,29 @@ export class User{
     @Column({ default: false })
     profileCompleted: boolean;
 
-    // sessions: SESSIONS[]
+    // @ROLE Doctor
+    @Column({ nullable: true })
+    profilePic: string;
+
+    @Column({ nullable: true })
+    hospital: string;
+
+    @Column({ default: 0 })
+    hourlyCharge: number;
+
+    @Column({ type: "array", default: false })
+    times: string[];
+
+    @Column({ length: 2000, default: false })
+    bio: string;
+
+    @Column({  nullable: true })
+    @Expose({ groups: ["doctor"]})
+    specialty: Specialty | string;
+    
+    // Doctors Recommendations(other doctors)
+
+
+
+    // appintment: SESSIONS[]
 }

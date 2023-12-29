@@ -5,7 +5,7 @@ import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { HasRole } from 'src/role/roles.decorator';
 import { Roles } from 'src/role/roles.enum';
 import { RolesGuard } from 'src/role/roles.guard';
-import { UserUpdateDTO } from './dto/update-profile.dto';
+import { UserUpdateDTO } from './dto/user-update.dto';
 import { Get, 
         Req, 
         Res, 
@@ -40,13 +40,13 @@ export class UserController {
         return this.userService.updateUser(updateDTO)
     }   
     
-    // @Get('/:id')
-    // async getUser(
-    //    @Param('id') userId: number, 
-    //    @Res() response: Response,
-    // ){        
-    //    return this.userService.getUserById(userId,response);
-    // }
+    @Get('/:id')
+    async getUser(
+       @Param('id') userId: number, 
+       @Res() response: Response,
+    ){        
+       return this.userService.getUserById(userId,response);
+    }
 
 
      

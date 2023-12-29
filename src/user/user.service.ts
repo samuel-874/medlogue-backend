@@ -6,8 +6,10 @@ import { UserRegistrationDTO } from "./dto/create-user.dto";
 import { customResponse } from "src/general/service";
 import { Request, Response } from "express";
 import * as bcrypt from 'bcrypt';
-import { UserUpdateDTO } from "./dto/update-profile.dto";
+import { UserUpdateDTO } from "./dto/user-update.dto";
 import { SocialLoginUserDTO } from "./dto/social-login.dto";
+import { FiledataService } from "src/filedata/filedata.service";
+import { DoctorUpdateDTO } from "./dto/doctor-update.dto";
 
 @Injectable()
 export class UserService {
@@ -15,6 +17,7 @@ export class UserService {
 
         @InjectRepository(User)
        private userRepository: Repository<User>,
+       private filedataService: FiledataService
        ) {}
 
 
@@ -25,7 +28,6 @@ export class UserService {
         })
        
         if(!user){
-            console.log("Error: not found");
            return response.status(404).send(customResponse(404,"User not found", null));
         }
 
@@ -78,12 +80,10 @@ export class UserService {
         })
 
         if(existingUserWithEmail){
-            
             if(existingUserWithEmail.provider === reqDTO.provider && existingUserWithEmail.role === reqDTO.role){
                 existingUserWithEmail.lastLogin = new Date().toString();
                return await this.userRepository.save(existingUserWithEmail);
             }
-
             throw new UnauthorizedException("Email has been taken")
         }
 
@@ -93,13 +93,19 @@ export class UserService {
 
    async updateUser( updateDTO: UserUpdateDTO ){
 
-
         const user = await this.userRepository.findOne({
                 where: { email: updateDTO.email }
         })
 
         if(!user){
            throw new UnauthorizedException("Email was not recognized");
+        }
+
+        if(updateDTO.profilePic){
+             const isExisting = await this.filedataService.isFileExisting(updateDTO.profilePic);
+             if(isExisting){
+                 user.profilePic = updateDTO.profilePic
+             }
         }
 
         user.dateOfBirth = updateDTO.dateOfBirth;
@@ -110,12 +116,45 @@ export class UserService {
         user.weight = updateDTO.weight
         user.firstname = updateDTO.firstname
         user.lastname = updateDTO.lastname
-        user.profileCompleted = true
+        user.profileCompleted = true;
 
         this.userRepository.save(user);
-
+        
         return customResponse(200,"Update was successfully",user);
    }
+
+   
+   async updateDoctor( updateDTO: DoctorUpdateDTO ){
+
+        const user = await this.userRepository.findOne({
+                where: { email: updateDTO.email }
+        })
+
+        if(!user){
+           throw new UnauthorizedException("Email was not recognized");
+        }
+
+        if(updateDTO.profilePic){
+             const isExisting = await this.filedataService.isFileExisting(updateDTO.profilePic);
+             if(isExisting){
+                 user.profilePic = updateDTO.profilePic
+             }
+        }
+
+        user.specialty = updateDTO.specialty
+        user.hospital = updateDTO.hospital
+        user.hourlyCharge = updateDTO.charge
+        user.times = updateDTO.times
+        user.firstname = updateDTO.firstname
+        user.lastname = updateDTO.lastname
+        user.bio = updateDTO.bio
+        user.profileCompleted = true;
+
+        this.userRepository.save(user);
+        
+        return customResponse(200,"Update was successfully",user);
+   }
+
 
     test(){
         return { "message": "worksWell"}
