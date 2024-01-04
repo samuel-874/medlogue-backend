@@ -10,6 +10,7 @@ import { UserUpdateDTO } from "./dto/user-update.dto";
 import { SocialLoginUserDTO } from "./dto/social-login.dto";
 import { FiledataService } from "src/filedata/filedata.service";
 import { DoctorUpdateDTO } from "./dto/doctor-update.dto";
+import { Roles } from "src/role/roles.enum";
 
 @Injectable()
 export class UserService {
@@ -88,6 +89,14 @@ export class UserService {
         }
 
         return await this.userRepository.save(reqDTO);
+    }
+
+    async getDoctors(){
+        const doctors = await this.userRepository.find({
+            where: { role: Roles.DOCTOR , isAvailable: true }
+        })
+
+        return customResponse(200,"Available Doctors Fetched", doctors)
     }
 
 

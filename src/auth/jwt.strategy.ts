@@ -23,7 +23,7 @@ export class JwtStrategy extends PassportStrategy(Strategy){
 
        const user = await this.userService.findOne(payload.email);    
        if(!user || user.role !== payload.role ){
-            throw new UnauthorizedException("Email on token is invalid Or modified token")
+            throw new UnauthorizedException("Email on token is invalid Or modified")
        }
        
         return user;

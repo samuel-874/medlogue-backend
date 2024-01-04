@@ -5,14 +5,16 @@ import {
     Entity, 
     CreateDateColumn, 
     PrimaryGeneratedColumn,
-    ManyToOne, 
+    ManyToOne,
+    OneToMany, 
 } from "typeorm"
 import { Expose } from "class-transformer";
+import { Appointment } from "src/appointment/appointment.entity";
 
 
 
 @Entity({ name: 'users' })
-export class User{
+export class User {
 
     @PrimaryGeneratedColumn()
     id: number;
@@ -75,19 +77,28 @@ export class User{
     @Column({ default: 0 })
     hourlyCharge: number;
 
-    @Column({ type: "array", default: false })
+    @Column('simple-array',{ nullable: true})
     times: string[];
 
-    @Column({ length: 2000, default: false })
+    @Column({ length: 2000, nullable: true })
     bio: string;
 
     @Column({  nullable: true })
     @Expose({ groups: ["doctor"]})
     specialty: Specialty | string;
+
+    @Column({ default: true })
+    isAvailable: boolean;
     
-    // Doctors Recommendations(other doctors)
-
-
-
+    @OneToMany(() => Appointment, (appointment) => appointment.doctor)
+    appointments: Appointment[]
+    
+    @OneToMany(() => Appointment, (appointment) => appointment.user)
+    sessions: Appointment[]
+    
+    // recomendedDoctors: Doctors[] ;
+    // ratings: Rating[]
+    // chats:[ Chat extend Message]
+    // Calls: [Chat extend Message]
     // appintment: SESSIONS[]
 }

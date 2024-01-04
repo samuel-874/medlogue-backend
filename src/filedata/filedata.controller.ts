@@ -36,21 +36,13 @@ export class FiledataController {
             return this.fileService.uploadFile(file);
     }
 
-    /* 
-    
-        doctor profile completion
-        fetching list of doctors 
-        viewing doctors profile 
-        booking session
-
-    */
 
     @Get('image/:filename')
     seeUploadedFile(@Param('filename') image :string, @Res() res :Response) { 
         return res.sendFile(image, { root: './src/uploads' });
     }
 
-    @Get('filename/:filename')
+    @Get(':filename')
     getFileData(@Param('filename') filename :string) { 
         return this.fileService.getFile(filename);
     }

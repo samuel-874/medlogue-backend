@@ -15,7 +15,7 @@ import { DoctorUpdateDTO } from "./dto/doctor-update.dto";
 
 @UseGuards(JwtAuthGuard,RolesGuard)
 @HasRole(Roles.DOCTOR)
-@Controller()
+@Controller("api/v1/doctors")
 export class DoctorController {
 
     constructor( private userService: UserService ) {}

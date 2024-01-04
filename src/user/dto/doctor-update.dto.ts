@@ -16,7 +16,6 @@ export class DoctorUpdateDTO{
     email: string;
 
     @IsString()
-    @IsEnum(Specialty)
     specialty: Specialty;
 
     @IsString()

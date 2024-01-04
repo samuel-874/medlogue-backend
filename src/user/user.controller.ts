@@ -19,7 +19,7 @@ import { Get,
 
 
 @UseGuards(JwtAuthGuard,RolesGuard)
-@HasRole(Roles.ADMIN,Roles.PATIENT)
+// @HasRole(Roles.ADMIN,Roles.PATIENT)
 @Controller('/api/v1/users')
 export class UserController {
 
@@ -38,7 +38,13 @@ export class UserController {
         @Body() updateDTO: UserUpdateDTO,
     ){
         return this.userService.updateUser(updateDTO)
-    }   
+    }
+    
+    
+    @Get('/doctors')
+    async getAvailableDoctors(){        
+       return this.userService.getDoctors();
+    }
     
     @Get('/:id')
     async getUser(
@@ -47,6 +53,7 @@ export class UserController {
     ){        
        return this.userService.getUserById(userId,response);
     }
+
 
 
      

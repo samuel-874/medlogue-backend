@@ -5,6 +5,7 @@ import { User } from './user/entity/user.entity';
 import { AuthModule } from './auth/auth.module';
 import { FiledataModule } from './filedata/filedata.module';
 import { FileData } from './filedata/filedata.entity';
+import { Appointment } from './appointment/appointment.entity';
 
 
 const  dotenv  = require('dotenv');
@@ -29,7 +30,7 @@ const {
     username: process.env.DB_USERNAME,
     password: process.env.DB_PASSWORD,
     database: process.env.DB_DATABASE,
-    entities: [User,FileData],
+    entities: [User,FileData,Appointment],
     synchronize: true,
     autoLoadEntities: true
 
