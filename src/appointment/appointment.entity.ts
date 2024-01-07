@@ -1,6 +1,6 @@
 import { User } from "src/user/entity/user.entity";
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
-import { Type, Protocol } from "./appointments.enums";
+import { Column, CreateDateColumn, Entity, ManyToOne, OneToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Type, Protocol, Status } from "./appointments.enums";
 @Entity()
  export class Appointment {
 
@@ -8,13 +8,16 @@ import { Type, Protocol } from "./appointments.enums";
       id: string;
 
       @ManyToOne(() => User, (user) => user.sessions)
-      user: User;
+      patient: User;
 
       @ManyToOne(() => User, (user) => user.appointments)
       doctor: User;
 
       @Column()
       time: string;
+
+      @CreateDateColumn()
+      dateBooked: Date;
 
       @Column({ type: "date"})
       date: Date;
@@ -29,10 +32,25 @@ import { Type, Protocol } from "./appointments.enums";
       protocol: Protocol
 
       @Column()
-      address: string
+      address: string;
+      
+      @Column()
+      preferedLocation: string;
 
       @Column()
-      rememberMe: boolean
+      rememberMe: boolean;
+
+      @Column({ type: "enum", enum: Status, default: Status.UN_COMPLETED })
+      status: Status;
+
+      @Column()
+      hasPaid: boolean;
+
+      @Column({ nullable: true })
+      paymentReference: string;
+
+      @Column({ nullable: true})
+      paymentMethod: string;
 
  }
 

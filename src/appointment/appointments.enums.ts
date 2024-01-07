@@ -9,4 +9,12 @@ export  enum Protocol {
     VIDEO_CALL = "video call",
     message = "message"
   }
- 
+
+export enum Status {
+
+    UN_COMPLETED = "UN_COMPLETED",
+    ONGOING = "ONGOING",
+    COMPLETED ="COMPLETED",
+    CANCELLED = "CANCELLED"
+}
+

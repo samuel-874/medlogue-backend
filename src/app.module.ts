@@ -6,6 +6,8 @@ import { AuthModule } from './auth/auth.module';
 import { FiledataModule } from './filedata/filedata.module';
 import { FileData } from './filedata/filedata.entity';
 import { Appointment } from './appointment/appointment.entity';
+import { CreditcardModule } from './creditcard/creditcard.module';
+
 
 
 const  dotenv  = require('dotenv');
@@ -36,6 +38,7 @@ const {
 
   }),
   AuthModule,
-  FiledataModule,],
+  FiledataModule,
+  CreditcardModule]
 })
 export class AppModule {}

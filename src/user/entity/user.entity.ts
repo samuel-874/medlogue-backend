@@ -10,6 +10,7 @@ import {
 } from "typeorm"
 import { Expose } from "class-transformer";
 import { Appointment } from "src/appointment/appointment.entity";
+import { CreditCard } from "src/creditcard/creditcard.enitity";
 
 
 
@@ -93,12 +94,14 @@ export class User {
     @OneToMany(() => Appointment, (appointment) => appointment.doctor)
     appointments: Appointment[]
     
-    @OneToMany(() => Appointment, (appointment) => appointment.user)
+    @OneToMany(() => Appointment, (appointment) => appointment.patient)
     sessions: Appointment[]
+
+    @OneToMany(() => CreditCard,(credit) => credit.user )
+    creditCards: CreditCard[]
     
     // recomendedDoctors: Doctors[] ;
     // ratings: Rating[]
     // chats:[ Chat extend Message]
     // Calls: [Chat extend Message]
-    // appintment: SESSIONS[]
 }
