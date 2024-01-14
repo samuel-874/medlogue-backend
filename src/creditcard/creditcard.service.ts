@@ -70,6 +70,13 @@ export class CreditcardService {
 
     async deleteCreditCard(id: string) {
 
+        const creditcard  = await this.creditCardRepo.findOne({
+            where: { id }
+           });
+    
+        if(!creditcard){
+             throw new HttpException("Creditcard not found",404);
+        }
         // TODO - tobe tested first
         await this.creditCardRepo.delete(id);
 

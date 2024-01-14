@@ -43,7 +43,7 @@ import { Type, Protocol, Status } from "./appointments.enums";
       @Column({ type: "enum", enum: Status, default: Status.UN_COMPLETED })
       status: Status;
 
-      @Column()
+      @Column({ default: false })
       hasPaid: boolean;
 
       @Column({ nullable: true })

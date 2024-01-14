@@ -22,7 +22,7 @@ export class AppointmentController {
         return this.appointmentService.bookSession(appointmentDTO, request.user?.email)
     }
 
-    @Put('/book-session')
+    @Put('/verify-payment')
     verifyPayment(@Body() paymentDTO: PaymentDTO ){
         return this.appointmentService.verifyPayment(paymentDTO)
     }

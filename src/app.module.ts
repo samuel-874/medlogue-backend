@@ -7,6 +7,8 @@ import { FiledataModule } from './filedata/filedata.module';
 import { FileData } from './filedata/filedata.entity';
 import { Appointment } from './appointment/appointment.entity';
 import { CreditcardModule } from './creditcard/creditcard.module';
+import { CreditCard } from './creditcard/creditcard.enitity';
+import { AppointmentModule } from './appointment/appointment.module';
 
 
 
@@ -32,13 +34,14 @@ const {
     username: process.env.DB_USERNAME,
     password: process.env.DB_PASSWORD,
     database: process.env.DB_DATABASE,
-    entities: [User,FileData,Appointment],
+    entities: [User,FileData,Appointment,CreditCard],
     synchronize: true,
     autoLoadEntities: true
 
   }),
   AuthModule,
   FiledataModule,
-  CreditcardModule]
+  CreditcardModule,AppointmentModule
+]
 })
 export class AppModule {}

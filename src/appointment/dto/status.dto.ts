@@ -6,6 +6,6 @@ export class StatusDTO {
     @IsString()
     appointmentId: string
 
-    @IsEnum({enum: Status})
+    @IsEnum(Status)
     status: Status
 }
